@@ -104,7 +104,7 @@ function Quote(props) {
       background: "linear-gradient(135deg, #FFF9E6 0%, #FFF4D6 100%)",
       borderRadius: "0 10px 10px 0", fontStyle: "italic", color: "#5a4a00", fontSize: "14px", lineHeight: 1.5,
     }}>
-      {"\u201C"}{props.text}{"\u201D"} {"\u2014"} {props.author || "SK"}
+      {"“"}{props.text}{"”"} {"—"} {props.author || "SK"}
     </div>
   );
 }
@@ -137,7 +137,7 @@ function StarRating(props) {
           <button key={star} onClick={function() { props.onChange(star); }}
             style={{ background: "none", border: "none", cursor: "pointer", fontSize: "26px", padding: "4px",
               color: star <= props.value ? "#FFB800" : "#ddd", lineHeight: 1,
-            }}>{"\u2605"}</button>
+            }}>{"★"}</button>
         );
       })}
     </div>
@@ -165,7 +165,7 @@ function TableWrap(props) {
 function buildPdfHtml(d) {
   var esc = function(s) { return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br/>"); };
   var ans = function(v) { return v ? esc(v) : '<span style="color:#999;font-style:italic;">Not answered</span>'; };
-  var starStr = function(n) { var f=n||0; return "\u2605".repeat(f)+"\u2606".repeat(5-f); };
+  var starStr = function(n) { var f=n||0; return "★".repeat(f)+"☆".repeat(5-f); };
   var idTotal = function(idea) { return (idea.passion||0)+(idea.pain||0)+(idea.profit||0)+(idea.marketFit||0)+(idea.skillMatch||0); };
   var qa = function(q,v) { return '<div class="qa"><div class="q">'+esc(q)+'</div><div class="a">'+ans(v)+'</div></div>'; };
 
@@ -319,8 +319,8 @@ export default function FoundersCompass() {
   var renderSection = function() {
     switch(activeSection) {
       case 0: return (
-        <SectionCard title="The Birth of the Idea" icon={"\uD83D\uDCA1"} story={"SK once told a young founder, \u201CYou don\u2019t need 100 ideas \u2014 you need one that wakes you up at 3 a.m.\u201D"}>
-          <p style={{color:"#555",lineHeight:1.7,fontSize:"14.5px",marginBottom:"20px"}}>Every business starts with a spark \u2014 not just passion, but a purpose that meets a need.</p>
+        <SectionCard title="The Birth of the Idea" icon={"💡"} story={"SK once told a young founder, “You don’t need 100 ideas — you need one that wakes you up at 3 a.m.”"}>
+          <p style={{color:"#555",lineHeight:1.7,fontSize:"14.5px",marginBottom:"20px"}}>Every business starts with a spark — not just passion, but a purpose that meets a need.</p>
           <Quote text="The best business idea is the one that refuses to leave your mind." />
           <label style={ls}>1. What problem frustrates you enough to fix it?</label>
           <TextArea value={birthReflection.q1} onChange={function(v){setBirthReflection(Object.assign({},birthReflection,{q1:v}));}} placeholder="Write your answer..." />
@@ -331,7 +331,7 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 1: return (
-        <SectionCard title="The 3P Framework" icon={"\uD83D\uDD25"} story="A man loved cooking but was broke until he solved a problem \u2014 busy office workers who needed healthy meals.">
+        <SectionCard title="The 3P Framework" icon={"🔥"} story="A man loved cooking but was broke until he solved a problem — busy office workers who needed healthy meals.">
           <Quote text="Your heart starts the fire. Pain gives it direction. Profit keeps it alive." />
           <p style={{color:"#555",fontSize:"14px",marginBottom:"16px"}}>Rate each idea 1-5 across five dimensions.</p>
           {isMobile ? renderIdeaCards() : renderIdeaTable()}
@@ -341,9 +341,9 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 2: return (
-        <SectionCard title="Market Map: TAM, SAM, SOM" icon={"\uD83D\uDDFA\uFE0F"} story="Netflix began by mailing DVDs to California, not the world.">
-          <Quote text={"You can\u2019t own the ocean, but you can dominate your pond."} />
-          {[{key:"tam",label:"TAM \u2014 Total Addressable Market",ph:"e.g., All cybersecurity teams globally"},{key:"sam",label:"SAM \u2014 Serviceable Available Market",ph:"e.g., Indian startups with 10-50 engineers"},{key:"som",label:"SOM \u2014 Serviceable Obtainable Market",ph:"e.g., 50 startups in Chennai"}].map(function(item){
+        <SectionCard title="Market Map: TAM, SAM, SOM" icon={"🗺️"} story="Netflix began by mailing DVDs to California, not the world.">
+          <Quote text={"You can’t own the ocean, but you can dominate your pond."} />
+          {[{key:"tam",label:"TAM — Total Addressable Market",ph:"e.g., All cybersecurity teams globally"},{key:"sam",label:"SAM — Serviceable Available Market",ph:"e.g., Indian startups with 10-50 engineers"},{key:"som",label:"SOM — Serviceable Obtainable Market",ph:"e.g., 50 startups in Chennai"}].map(function(item){
             return (<div key={item.key} style={{background:"#f8f9fa",borderRadius:"10px",padding:"14px",border:"1px solid #eee",marginBottom:"12px"}}>
               <div style={{fontWeight:600,fontSize:"14px",color:"#1a1a1a",marginBottom:"8px"}}>{item.label}</div>
               <TextArea value={market[item.key]} onChange={function(v){var u=Object.assign({},market);u[item.key]=v;setMarket(u);}} placeholder={item.ph} rows={2} />
@@ -359,13 +359,13 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 3: return (
-        <SectionCard title="Leverage Map" icon={"\u26A1"} story={"Karthik built bakery automation software using his IT skills and his family\u2019s bakery access."}>
+        <SectionCard title="Leverage Map" icon={"⚡"} story={"Karthik built bakery automation software using his IT skills and his family’s bakery access."}>
           <Quote text="Your next startup is hidden inside your existing assets." />
           {isMobile ? LEVERAGE_ASSETS.map(function(row,idx){
             return (<div key={idx} style={{background:idx%2===0?"#f8f9ff":"#fff",padding:"12px",borderRadius:"8px",marginBottom:"8px",border:"1px solid #eee"}}>
               <div style={{fontWeight:600,color:"#1a1a1a",fontSize:"14px"}}>{row.asset}</div>
               <div style={{fontSize:"13px",color:"#666"}}>{row.example}</div>
-              <div style={{fontSize:"13px",color:"#2196F3",marginTop:"4px"}}>{"\u2192"} {row.leverage}</div>
+              <div style={{fontSize:"13px",color:"#2196F3",marginTop:"4px"}}>{"→"} {row.leverage}</div>
             </div>);
           }) : (
             <TableWrap>
@@ -381,16 +381,16 @@ export default function FoundersCompass() {
           <TextArea value={leverageNotes.q2} onChange={function(v){setLeverageNotes(Object.assign({},leverageNotes,{q2:v}));}} placeholder="Your answer..." />
           <label style={ls}>3. What am I underutilizing?</label>
           <TextArea value={leverageNotes.q3} onChange={function(v){setLeverageNotes(Object.assign({},leverageNotes,{q3:v}));}} placeholder="Your answer..." />
-          <Quote text={"Don\u2019t start from zero. Start from strength."} />
+          <Quote text={"Don’t start from zero. Start from strength."} />
         </SectionCard>
       );
       case 4: return (
-        <SectionCard title="Unlearn to Earn" icon={"\uD83D\uDD04"} story={"Rahul used to say, \u201CI\u2019ll start when I\u2019m ready.\u201D SK told him, \u201CStart, and readiness will meet you halfway.\u201D"}>
+        <SectionCard title="Unlearn to Earn" icon={"🔄"} story={"Rahul used to say, “I’ll start when I’m ready.” SK told him, “Start, and readiness will meet you halfway.”"}>
           <Quote text="The version of you that built comfort cannot build freedom." />
           {UNLEARN_HABITS.map(function(row,idx){
             return (<div key={idx} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"10px 14px",background:idx%2===0?"#fff5f5":"#fff",borderRadius:"8px",marginBottom:"4px",gap:"12px",flexWrap:"wrap"}}>
               <span style={{color:"#c62828",textDecoration:"line-through",opacity:0.7,fontSize:"13px",flex:1,minWidth:"120px"}}>{row.old}</span>
-              <span style={{color:"#2e7d32",fontWeight:500,fontSize:"13px",flex:1,minWidth:"120px",textAlign:"right"}}>{"\u2192"} {row.replace}</span>
+              <span style={{color:"#2e7d32",fontWeight:500,fontSize:"13px",flex:1,minWidth:"120px",textAlign:"right"}}>{"→"} {row.replace}</span>
             </div>);
           })}
           <label style={ls}>Biggest bottleneck habit?</label>
@@ -402,7 +402,7 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 5: return (
-        <SectionCard title="Founder Fit Test" icon={"\uD83E\uDDEA"} story="Deepa scored 38 on her Founder Fit test. Six months later, she scored 48.">
+        <SectionCard title="Founder Fit Test" icon={"🧪"} story="Deepa scored 38 on her Founder Fit test. Six months later, she scored 48.">
           <Quote text="Before you validate your product, validate your mindset." />
           <div style={{display:"grid",gap:"10px",marginBottom:"20px"}}>
             {FOUNDER_STATEMENTS.map(function(stmt,idx){
@@ -420,7 +420,7 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 6: return (
-        <SectionCard title="The Validation Canvas" icon={"\uD83D\uDCCB"} story="Asha thought she needed a full app. SK asked her to sell on WhatsApp first \u2014 she got 10 paying customers that week.">
+        <SectionCard title="The Validation Canvas" icon={"📋"} story="Asha thought she needed a full app. SK asked her to sell on WhatsApp first — she got 10 paying customers that week.">
           <Quote text="Validation = real user + real feedback + real payment." />
           {[{key:"problem",label:"Problem",desc:"What pain are you solving?"},{key:"audience",label:"Audience",desc:"Who experiences it often?"},{key:"solution",label:"Solution",desc:"How do you solve it?"},{key:"differentiator",label:"Differentiator",desc:"Why are you unique?"},{key:"businessModel",label:"Business Model",desc:"How do you make money?"},{key:"validation",label:"Validation",desc:"Who paid or showed intent?"},{key:"feedback",label:"Feedback",desc:"What did test users say?"},{key:"pricing",label:"Pricing",desc:"Minimum people pay willingly?"},{key:"channel",label:"Channel",desc:"Where will you reach customers?"},{key:"nextStep",label:"Next Step",desc:"30-day validation plan?"}].map(function(item){
             return (<div key={item.key} style={{marginBottom:"12px"}}>
@@ -436,8 +436,8 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 7: return (
-        <SectionCard title="Minimum Viable Proof (MVP)" icon={"\uD83D\uDE80"} story="Vivek spent months coding. SK made him sell a landing page version \u2014 it worked. He saved 6 months.">
-          <Quote text="Your code is not validation \u2014 your first sale is." />
+        <SectionCard title="Minimum Viable Proof (MVP)" icon={"🚀"} story="Vivek spent months coding. SK made him sell a landing page version — it worked. He saved 6 months.">
+          <Quote text="Your code is not validation — your first sale is." />
           <label style={ls}>1. Smallest version I can test today?</label>
           <TextArea value={mvpReflection.q1} onChange={function(v){setMvpReflection(Object.assign({},mvpReflection,{q1:v}));}} placeholder="Your answer..." />
           <label style={ls}>2. Can I explain it in one sentence?</label>
@@ -448,13 +448,13 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 8: return (
-        <SectionCard title="Early Team and Internship Formula" icon={"\uD83D\uDC65"} story="SK guided a young founder to start with two college interns. Within 2 months, they became growth partners.">
+        <SectionCard title="Early Team and Internship Formula" icon={"👥"} story="SK guided a young founder to start with two college interns. Within 2 months, they became growth partners.">
           <div style={{background:"#e8f5e9",borderRadius:"10px",padding:"14px",marginBottom:"16px",border:"1px solid #c8e6c9"}}>
             <div style={{fontWeight:600,color:"#2e7d32",fontSize:"14px",marginBottom:"6px"}}>The Formula</div>
             <div style={{color:"#33691e",fontSize:"14px",lineHeight:1.6}}>
-              Start with 2 interns ({"\u20B9"}5K{"\u2013"}{"\u20B9"}10K each):<br/>
-              {"\u2192"} One for validation and outreach<br/>
-              {"\u2192"} One for customer communication and market research
+              Start with 2 interns ({"₹"}5K{"–"}{"₹"}10K each):<br/>
+              {"→"} One for validation and outreach<br/>
+              {"→"} One for customer communication and market research
             </div>
           </div>
           <label style={ls}>1. Who can I onboard?</label>
@@ -466,7 +466,7 @@ export default function FoundersCompass() {
         </SectionCard>
       );
       case 9: return (
-        <SectionCard title="Validation Checklist" icon={"\u2705"}>
+        <SectionCard title="Validation Checklist" icon={"✅"}>
           <Quote text="Proof beats presentation. Show the world your first win, not your first logo." />
           <div style={{borderRadius:"10px",padding:"16px",marginBottom:"20px",textAlign:"center",background:"#f8f9fa",border:"1px solid #eee"}}>
             <span style={{fontSize:"28px",fontWeight:800,fontFamily:"'Space Grotesk',sans-serif"}}>{checklistDone}/10</span>
@@ -493,9 +493,9 @@ export default function FoundersCompass() {
           </div>
           <div style={{marginTop:"28px",textAlign:"center"}}>
             <button onClick={handleExportPDF} style={{padding:"14px 28px",background:"linear-gradient(135deg,#1a1a1a,#333)",color:"#FFB800",border:"none",borderRadius:"12px",fontSize:"15px",fontWeight:700,cursor:"pointer",fontFamily:"'Space Grotesk',sans-serif",boxShadow:"0 4px 14px rgba(0,0,0,0.2)",width:isMobile?"100%":"auto"}}>
-              {"\uD83D\uDCC4"} Download All Responses
+              {"📄"} Download All Responses
             </button>
-            <div style={{fontSize:"12px",color:"#888",marginTop:"8px"}}>Downloads HTML {"\u2014"} open in browser, Print {"\u2192"} Save as PDF</div>
+            <div style={{fontSize:"12px",color:"#888",marginTop:"8px"}}>Downloads HTML {"—"} open in browser, Print {"→"} Save as PDF</div>
           </div>
         </SectionCard>
       );
@@ -524,13 +524,13 @@ export default function FoundersCompass() {
       }}>
         <div style={{padding:"20px 16px 14px",borderBottom:"1px solid #333",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-            <span style={{fontSize:"22px"}}>{"\u26A1"}</span>
+            <span style={{fontSize:"22px"}}>{"⚡"}</span>
             <div>
               <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"15px"}}>SURGE STARTUPS</div>
-              <div style={{fontSize:"10px",color:"#888"}}>{"Founder\u2019s Compass \u2014 Part 2"}</div>
+              <div style={{fontSize:"10px",color:"#888"}}>{"Founder’s Compass — Part 2"}</div>
             </div>
           </div>
-          {isMobile && <button onClick={function(){setSidebarOpen(false);}} style={{background:"none",border:"none",color:"#888",fontSize:"24px",cursor:"pointer",padding:"4px"}}>{"\u2715"}</button>}
+          {isMobile && <button onClick={function(){setSidebarOpen(false);}} style={{background:"none",border:"none",color:"#888",fontSize:"24px",cursor:"pointer",padding:"4px"}}>{"✕"}</button>}
         </div>
         <div style={{flex:1,overflowY:"auto",padding:"8px"}}>
           {SECTIONS.map(function(sec,idx){
@@ -543,7 +543,7 @@ export default function FoundersCompass() {
         </div>
         <div style={{padding:"10px 16px",borderTop:"1px solid #333"}}>
           <button onClick={handleExportPDF} style={{width:"100%",padding:"10px",background:"#FFB800",color:"#1a1a1a",border:"none",borderRadius:"8px",fontSize:"13px",fontWeight:700,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>
-            {"\uD83D\uDCC4"} Export PDF
+            {"📄"} Export PDF
           </button>
         </div>
         <div style={{padding:"6px 16px 12px",fontSize:"10px",color:"#666"}}>workfast.ai/surge-startups</div>
@@ -557,7 +557,7 @@ export default function FoundersCompass() {
             <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
               {isMobile && (
                 <button onClick={function(){setSidebarOpen(true);}} style={{background:"#fff",border:"1.5px solid #ddd",borderRadius:"8px",padding:"8px 10px",cursor:"pointer",fontSize:"18px",lineHeight:1,display:"flex",alignItems:"center"}}>
-                  {"\u2630"}
+                  {"☰"}
                 </button>
               )}
               <div style={{fontSize:"12px",color:"#888",fontWeight:500}}>Section {activeSection+1}/{SECTIONS.length}</div>
@@ -569,7 +569,7 @@ export default function FoundersCompass() {
               </button>
               <button onClick={function(){setActiveSection(Math.min(SECTIONS.length-1,activeSection+1));scrollToTop();}} disabled={activeSection===SECTIONS.length-1}
                 style={{padding:"8px 12px",border:"none",borderRadius:"8px",background:activeSection===SECTIONS.length-1?"#ddd":"#FFB800",cursor:activeSection===SECTIONS.length-1?"not-allowed":"pointer",fontSize:"13px",fontWeight:600,fontFamily:"'DM Sans',sans-serif",color:"#1a1a1a"}}>
-                {"\u2192"}
+                {"→"}
               </button>
             </div>
           </div>
